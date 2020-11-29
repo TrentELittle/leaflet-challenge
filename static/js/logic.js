@@ -99,7 +99,7 @@ d3.json(link2,function(response){
         30,0
       ],
       zoom: 1,
-      layers: [satellite, earthQuakes, plates]
+      layers: [satellite, earthQuakes]
     });
   
     
@@ -109,7 +109,7 @@ d3.json(link2,function(response){
     }).addTo(myMap);
 
     var info = L.control({
-        position: "bottomright"
+        position: "bottomleft"
     });
 
     info.onAdd = function(){
