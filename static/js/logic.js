@@ -19,7 +19,7 @@ d3.json(link2,function(response){
     })
 
     
-    var link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
+var link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
 
     
 
@@ -36,32 +36,20 @@ d3.json(link2,function(response){
             fillOpacity: .8
         }
         return L.circleMarker( latlng, options);
-
     }
-
 
     var earthQuakes = L.geoJSON(data,{
         onEachFeature: function(feature,layer){
             layer.bindPopup("Place:"+feature.properties.place + "<br> Magnitude: "+feature.properties.mag+"<br> Time: "+new Date(feature.properties.time));
         },
         pointToLayer: createCircleMarker
-
     });
-
     createMap(plates, earthQuakes);
-
     });
-
-    
 });
-
-
-  
-
 
   function createMap(plates,earthQuakes) {
 
-    
     var satellite = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
       maxZoom: 18,
       id: "mapbox.satellite",
@@ -81,14 +69,14 @@ d3.json(link2,function(response){
     });
 
   
-    // Define a baseMaps object to hold our base layers
+    // Create base map layer from all layers
     var baseMaps = {
       "Satellite": satellite,
       "Streetmap": streetmap,
       "Grayscale": grayscale
     };
   
-    // Create overlay object to hold our overlay layer
+    // Create overlay of earthquake data
     var overlayMaps = {
       Earthquakes: earthQuakes
     };
@@ -163,9 +151,7 @@ function displayLegend(){
     }];
 
     var header = "<h3>Magnitude</h3><hr>";
-
     var strng = "";
-   
     for (i = 0; i < legendInfo.length; i++){
         strng += "<p style = \"background-color: "+legendInfo[i].color+"\">"+legendInfo[i].limit+"</p> ";
     }
