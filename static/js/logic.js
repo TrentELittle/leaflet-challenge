@@ -63,37 +63,28 @@ d3.json(link2,function(response){
   function createMap(plates,earthQuakes) {
 
     
-    var satellite = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
+    var streetmap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
       attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
       maxZoom: 18,
-      id: "mapbox.satellite",
+      id: "mapbox.streets",
       accessToken: config.API_KEY
     });
   
     var grayscale = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
-      attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
       maxZoom: 18,
       id: "mapbox.light",
       accessToken: config.API_KEY
     });
 
-    var outdoors = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
-      attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
-      maxZoom: 18,
-      id: "mapbox.outdoors",
-      accessToken: config.API_KEY
-    });
   
     // Define a baseMaps object to hold our base layers
     var baseMaps = {
-      "Satellite": satellite,
-      "Grayscale": grayscale,
-      "Outdoors": outdoors
+      "Streetmap": streetmap,
+      "Grayscale": grayscale
     };
   
     // Create overlay object to hold our overlay layer
     var overlayMaps = {
-      "Fault Lines": plates,
       Earthquakes: earthQuakes
     };
   
