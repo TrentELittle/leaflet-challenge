@@ -1,4 +1,3 @@
-var plates;
 var myMap;
 var link2 = "data/Plates.geojson";
 
@@ -29,14 +28,14 @@ d3.json(link2,function(response){
    
     function createCircleMarker(feature,latlng){
         let options = {
-            radius:feature.properties.mag*4,
+            radius:feature.properties.mag*2.5,
             fillColor: chooseColor(feature.properties.mag),
             color: "black",
-            weight: 1,
-            opacity: 1,
-            fillOpacity: 0.6
+            weight: .5,
+            opacity: 2,
+            fillOpacity: .8
         }
-        return L.circleMarker( latlng, options );
+        return L.circleMarker( latlng, options);
 
     }
 
@@ -49,7 +48,7 @@ d3.json(link2,function(response){
 
     });
 
-    createMap(plates,earthQuakes);
+    createMap(plates, earthQuakes);
 
     });
 
@@ -63,8 +62,13 @@ d3.json(link2,function(response){
   function createMap(plates,earthQuakes) {
 
     
+    var satellite = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
+      maxZoom: 18,
+      id: "mapbox.satellite",
+      accessToken: config.API_KEY
+    });
+
     var streetmap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
-      attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
       maxZoom: 18,
       id: "mapbox.streets",
       accessToken: config.API_KEY
@@ -79,6 +83,7 @@ d3.json(link2,function(response){
   
     // Define a baseMaps object to hold our base layers
     var baseMaps = {
+      "Satellite": satellite,
       "Streetmap": streetmap,
       "Grayscale": grayscale
     };
@@ -91,10 +96,10 @@ d3.json(link2,function(response){
     // Create our map
     var myMap = L.map("map", {
       center: [
-        37.0902405,-95.7128906
+        30,0
       ],
-      zoom: 4,
-      layers: [satellite, plates, earthQuakes]
+      zoom: 1,
+      layers: [satellite, earthQuakes, plates]
     });
   
     
@@ -122,7 +127,7 @@ d3.json(link2,function(response){
   function chooseColor(mag){
     switch(true){
         case (mag<1):
-            return "chartreuse";
+            return "lightgreen";
         case (mag<2):
             return "greenyellow";
         case (mag<3):
@@ -130,16 +135,16 @@ d3.json(link2,function(response){
         case (mag<4):
             return "DarkOrange";
         case (mag<5):
-            return "Peru";
-        default:
             return "red";
+        default:
+            return "purple";
     };
 }
 
 function displayLegend(){
     var legendInfo = [{
         limit: "Mag: 0-1",
-        color: "chartreuse"
+        color: "lightgreen"
     },{
         limit: "Mag: 1-2",
         color: "greenyellow"
@@ -151,10 +156,10 @@ function displayLegend(){
         color:"DarkOrange"
     },{
         limit:"Mag: 4-5",
-        color:"Peru"
+        color:"red"
     },{
         limit:"Mag: 5+",
-        color:"red"
+        color:"purple"
     }];
 
     var header = "<h3>Magnitude</h3><hr>";
